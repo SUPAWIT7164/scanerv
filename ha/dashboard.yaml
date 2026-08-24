@@ -35,21 +35,16 @@ cards:
           action: more-info
         fill_container: true
       - type: custom:mushroom-template-card
-        entity: sensor.erv_u2_air
+        entity: sensor.erv_u2_air_label
         primary: Fan Speed
-        secondary: |
-          {% set v = states('sensor.erv_u2_air') %}
-          {% if v == '1' %}Low
-          {% elif v == '3' %}High
-          {% else %}{{ v }}
-          {% endif %}
+        secondary: "{{ states('sensor.erv_u2_air_label') }}"
         icon: mdi:fan
         layout: vertical
         icon_color: |
-          {% set v = states('sensor.erv_u2_air') %}
-          {% if v == '3' %}
+          {% set v = states('sensor.erv_u2_air_label') %}
+          {% if v == 'High' %}
             orange
-          {% elif v == '1' %}
+          {% elif v == 'Low' %}
             cyan
           {% else %}
             grey

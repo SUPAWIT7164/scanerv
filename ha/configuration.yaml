@@ -1,0 +1,88 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+input_number: !include input_number.yaml
+input_select: !include input_select.yaml
+
+modbus: !include modbus.yaml
+
+rest_command: !include rest_command.yaml
+
+mqtt:
+  sensor: !include mqtt_sensors.yaml
+
+#############################################
+#  TEMPLATE – ERV LABELS
+#############################################
+# ไฟล์นี้ไม่สั่งเปิด-ปิดเครื่อง แค่แปลงตัวเลขเป็นคำ
+# Power แก้ที่ modbus.yaml (write_type: holdings) ไม่ใช่ที่นี่
+#
+# U1/U3/U4 ใช้ entity ลงท้าย _2 เพราะ HA สร้างเซ็นเซอร์ซ้ำ
+# U2 ยังใช้ชื่อเดิม ไม่มี _2 — ปุ่ม Power ต้องเป็น switch.erv_u2_power
+# ถ้ากดไม่ติด ให้ไป Developer Tools → States หา switch.erv_u2_power
+# ถ้าเจอแค่ switch.erv_u2_power_2 ให้ชี้การ์ดไปที่ตัวนั้น
+template:
+  - sensor:
+
+      # ===== U1 =====
+      - name: "ERV U1 Air Label"
+        unique_id: erv_u1_air_label
+        state: >
+          {% set v = states('sensor.erv_u1_air_2') | int(-1) %}
+          {{ {1:'Low', 3:'High'}.get(v, 'Unknown') }}
+
+      - name: "ERV U1 Mode Label"
+        unique_id: erv_u1_mode_label
+        state: >
+          {% set v = states('sensor.erv_u1_mode_2') | int(-1) %}
+          {{ {0:'Heat-Exchange', 1:'Normal'}.get(v, 'Unknown') }}
+
+      - name: "ERV U2 Air Label"
+        unique_id: erv_u2_air_label
+        state: >
+          {% set v = states('sensor.erv_u2_air') | int(-1) %}
+          {{ {1:'Low', 3:'High'}.get(v, 'Unknown') }}
+
+      - name: "ERV U2 Mode Label"
+        unique_id: erv_u2_mode_label
+        state: >
+          {% set v = states('sensor.erv_u2_mode') | int(-1) %}
+          {{ {0:'Heat-Exchange', 1:'Normal'}.get(v, 'Unknown') }}
+
+      # ===== U3 =====
+      - name: "ERV U3 Air Label"
+        unique_id: erv_u3_air_label
+        state: >
+          {% set v = states('sensor.erv_u3_air_2') | int(-1) %}
+          {{ {1:'Low', 3:'High'}.get(v, 'Unknown') }}
+
+      - name: "ERV U3 Mode Label"
+        unique_id: erv_u3_mode_label
+        state: >
+          {% set v = states('sensor.erv_u3_mode_2') | int(-1) %}
+          {{ {0:'Heat-Exchange', 1:'Normal'}.get(v, 'Unknown') }}
+
+      # ===== U4 =====
+      - name: "ERV U4 Air Label"
+        unique_id: erv_u4_air_label
+        state: >
+          {% set v = states('sensor.erv_u4_air_2') | int(-1) %}
+          {{ {1:'Low', 3:'High'}.get(v, 'Unknown') }}
+
+      - name: "ERV U4 Mode Label"
+        unique_id: erv_u4_mode_label
+        state: >
+          {% set v = states('sensor.erv_u4_mode_2') | int(-1) %}
+          {{ {0:'Heat-Exchange', 1:'Normal'}.get(v, 'Unknown') }}
+
+# ปิดการสแกนอัตโนมัติ
+zeroconf: false
+ssdp: false
