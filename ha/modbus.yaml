@@ -1,54 +1,1365 @@
-# ไฟล์ที่ 1/3 — รวมเข้า hub Modbus เดิม (อย่าเปิด TCP ซ้ำ)
-# เปลี่ยน `hub: erv` ในสคริปต์ให้ตรงกับ name ของ hub นี้
-#
-# จุดที่ขาด: สวิตช์ Power ที่ holding address 1 (slave 2)
-# write_type: holdings = FC16 เพราะบอร์ด ERV หลายรุ่นไม่รับ FC06
+#############################################
+# MODBUS – INTESIS IN771AIR00LO000
+# (ไม่แก้ส่วนนี้)
+#############################################
 
-    switches:
-      - name: "ERV U2 Power"
-        unique_id: erv_u2_power
-        slave: 2
+- name: "intesis_panasonic"
+  type: tcp
+  host: 172.17.24.120
+  port: 502
+
+  climates:
+
+    # ===== FCU1 =====
+    - name: "FCU1"
+      unique_id: "intesis_fcu1"
+      slave: 2
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
         address: 1
-        write_type: holdings
-        command_on: 1
-        command_off: 0
-        scan_interval: 5
-        verify:
-          input_type: holding
-          address: 1
-          delay: 1
-          state_on: 1
-          state_off: 0
-
-    sensors:
-      - name: "ERV U2 Mode"
-        unique_id: erv_u2_mode
-        slave: 2
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
         address: 2
-        input_type: holding
-        data_type: uint16
-        scan_interval: 30
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
 
-      - name: "ERV U2 Air"
-        unique_id: erv_u2_air
-        slave: 2
-        address: 3
-        input_type: holding
-        data_type: uint16
-        scan_interval: 30
+    # ===== FCU2 =====
+    - name: "FCU2"
+      unique_id: "intesis_fcu2"
+      slave: 3
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
 
-      - name: "ERV U2 Remain Hours"
-        unique_id: erv_u2_remain_hours
-        slave: 2
-        address: 11
-        input_type: holding
-        data_type: uint16
-        scan_interval: 60
+    # ===== FCU3 =====
+    - name: "FCU3"
+      unique_id: "intesis_fcu3"
+      slave: 4
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
 
-      - name: "ERV U2 Replace Hours"
-        unique_id: erv_u2_replace_hours
-        slave: 2
-        address: 13
+    # ===== FCU4 =====
+    - name: "FCU4"
+      unique_id: "intesis_fcu4"
+      slave: 5
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU5 =====
+    - name: "FCU5"
+      unique_id: "intesis_fcu5"
+      slave: 6
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU6 =====
+    - name: "FCU6"
+      unique_id: "intesis_fcu6"
+      slave: 7
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU7 =====
+    - name: "FCU7"
+      unique_id: "intesis_fcu7"
+      slave: 8
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU8 =====
+    - name: "FCU8"
+      unique_id: "intesis_fcu8"
+      slave: 9
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU9 =====
+    - name: "FCU9"
+      unique_id: "intesis_fcu9"
+      slave: 10
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU10 =====
+    - name: "FCU10"
+      unique_id: "intesis_fcu10"
+      slave: 11
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU11 =====
+    - name: "FCU11"
+      unique_id: "intesis_fcu11"
+      slave: 12
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU12 =====
+    - name: "FCU12"
+      unique_id: "intesis_fcu12"
+      slave: 13
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU13 =====
+    - name: "FCU13"
+      unique_id: "intesis_fcu13"
+      slave: 14
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU14 =====
+    - name: "FCU14"
+      unique_id: "intesis_fcu14"
+      slave: 15
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU15 =====
+    - name: "FCU15"
+      unique_id: "intesis_fcu15"
+      slave: 16
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU16 =====
+    - name: "FCU16"
+      unique_id: "intesis_fcu16"
+      slave: 17
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU17 =====
+    - name: "FCU17"
+      unique_id: "intesis_fcu17"
+      slave: 18
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU18 =====
+    - name: "FCU18"
+      unique_id: "intesis_fcu18"
+      slave: 19
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU19 =====
+    - name: "FCU19"
+      unique_id: "intesis_fcu19"
+      slave: 20
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU20 =====
+    - name: "FCU20"
+      unique_id: "intesis_fcu20"
+      slave: 21
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU21 =====
+    - name: "FCU21"
+      unique_id: "intesis_fcu21"
+      slave: 22
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU22 =====
+    - name: "FCU22"
+      unique_id: "intesis_fcu22"
+      slave: 23
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU23 =====
+    - name: "FCU23"
+      unique_id: "intesis_fcu23"
+      slave: 24
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU24 =====
+    - name: "FCU24"
+      unique_id: "intesis_fcu24"
+      slave: 25
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU25 =====
+    - name: "FCU25"
+      unique_id: "intesis_fcu25"
+      slave: 26
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU26 =====
+    - name: "FCU26"
+      unique_id: "intesis_fcu26"
+      slave: 27
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU27 =====
+    - name: "FCU27"
+      unique_id: "intesis_fcu27"
+      slave: 28
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU28 =====
+    - name: "FCU28"
+      unique_id: "intesis_fcu28"
+      slave: 29
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU29 =====
+    - name: "FCU29"
+      unique_id: "intesis_fcu29"
+      slave: 30
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU30 =====
+    - name: "FCU30"
+      unique_id: "intesis_fcu30"
+      slave: 31
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU31 =====
+    - name: "FCU31"
+      unique_id: "intesis_fcu31"
+      slave: 32
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU32 =====
+    - name: "FCU32"
+      unique_id: "intesis_fcu32"
+      slave: 33
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU33 =====
+    - name: "FCU33"
+      unique_id: "intesis_fcu33"
+      slave: 34
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU34 =====
+    - name: "FCU34"
+      unique_id: "intesis_fcu34"
+      slave: 35
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+    # ===== FCU35 =====
+    - name: "FCU35"
+      unique_id: "intesis_fcu35"
+      slave: 36
+      address: 5
+      input_type: holding
+      data_type: int16
+      scale: 0.1
+      offset: 0
+      precision: 1
+      temperature_unit: C
+      max_temp: 30
+      min_temp: 16
+      temp_step: 0.5
+      target_temp_register: 4
+      hvac_onoff_register: 0
+      write_registers: true
+      hvac_mode_register:
+        address: 1
+        values:
+          state_auto: 0
+          state_heat: 1
+          state_dry: 2
+          state_fan_only: 3
+          state_cool: 4
+      fan_mode_register:
+        address: 2
+        values:
+          state_fan_auto: 0
+          state_fan_low: 1
+          state_fan_middle: 3
+          state_fan_high: 5
+
+#############################################
+#  MODBUS – ERV HF5111SC (U1-U4)
+#############################################
+# จุดที่ทำให้กด Power ไม่ติด: write_type: holding = FC06
+# บอร์ด ERV รับแบบเดียวกับ Intesis คือ FC16 → ต้องเป็น holdings
+# แล้ว Restart Home Assistant
+- name: "ERV"
+  type: tcp
+  host: "172.17.24.160"
+  port: 8899
+  delay: 5
+  timeout: 10
+  retries: 5
+  message_wait_milliseconds: 300
+
+  #################################
+  # SWITCHES
+  #################################
+  switches:
+
+    # ===== U1 =====
+    - name: "ERV U1 Power"
+      slave: 1
+      address: 1
+      write_type: holdings
+      command_on: 1
+      command_off: 0
+      scan_interval: 5
+      verify:
         input_type: holding
-        data_type: uint16
-        scan_interval: 60
+        address: 1
+        state_on: 1
+        state_off: 0
+    # ===== U2 =====
+    - name: "ERV U2 Power"
+      slave: 2
+      address: 1
+      write_type: holdings
+      command_on: 1
+      command_off: 0
+      scan_interval: 5
+      verify:
+        input_type: holding
+        address: 1
+        state_on: 1
+        state_off: 0
+    # ===== U3 =====
+    - name: "ERV U3 Power"
+      slave: 3
+      address: 1
+      write_type: holdings
+      command_on: 1
+      command_off: 0
+      scan_interval: 5
+      verify:
+        input_type: holding
+        address: 1
+        state_on: 1
+        state_off: 0
+    # ===== U4 =====
+    - name: "ERV U4 Power"
+      slave: 4
+      address: 1
+      write_type: holdings
+      command_on: 1
+      command_off: 0
+      scan_interval: 5
+      verify:
+        input_type: holding
+        address: 1
+        state_on: 1
+        state_off: 0
+
+  #################################
+  # SENSORS
+  #################################
+  sensors:
+
+    #################################
+    # ===== U1 =====
+    #################################
+    - name: "ERV U1 Mode"
+      slave: 1
+      address: 2
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U1 Air"
+      slave: 1
+      address: 3
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U1 Remain Hours"
+      slave: 1
+      address: 11
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
+
+    - name: "ERV U1 Replace Hours"
+      slave: 1
+      address: 13
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
+    #################################
+    # ===== U2 =====
+    #################################
+    - name: "ERV U2 Mode"
+      slave: 2
+      address: 2
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U2 Air"
+      slave: 2
+      address: 3
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U2 Remain Hours"
+      slave: 2
+      address: 11
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
+
+    - name: "ERV U2 Replace Hours"
+      slave: 2
+      address: 13
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
+    #################################
+    # ===== U3 =====
+    #################################
+    - name: "ERV U3 Mode"
+      slave: 3
+      address: 2
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U3 Air"
+      slave: 3
+      address: 3
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U3 Remain Hours"
+      slave: 3
+      address: 11
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
+
+    - name: "ERV U3 Replace Hours"
+      slave: 3
+      address: 13
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
+    #################################
+    # ===== U4 =====
+    #################################
+    - name: "ERV U4 Mode"
+      slave: 4
+      address: 2
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U4 Air"
+      slave: 4
+      address: 3
+      input_type: holding
+      data_type: uint16
+      scan_interval: 30
+
+    - name: "ERV U4 Remain Hours"
+      slave: 4
+      address: 11
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
+
+    - name: "ERV U4 Replace Hours"
+      slave: 4
+      address: 13
+      input_type: holding
+      data_type: uint16
+      scan_interval: 60
