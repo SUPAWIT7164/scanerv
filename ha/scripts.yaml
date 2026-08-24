@@ -1,84 +1,415 @@
-# ไฟล์ที่ 2/3 — วางใน scripts.yaml แล้ว Restart Home Assistant
-# `hub: ERV` ต้องตรงกับชื่อ hub ในไฟล์ Modbus
-# `value: [n]` เป็นลิสต์ เพื่อให้ HA ส่ง FC16 (บอร์ด ERV มักไม่รับ FC06)
+# วางทั้งไฟล์นี้เป็น scripts.yaml
+# configuration.yaml มี script: !include scripts.yaml อยู่แล้ว
+# ห้ามใส่คีย์ script: ซ้ำด้านบน
+#
+# ERV: value เป็นลิสต์ [n] เพื่อให้ HA ส่ง FC16 (บอร์ดไม่รับ FC06)
+# hub: ERV ต้องตรงกับ name ใน modbus.yaml
 
-script:
-  erv_u2_power_on:
-    alias: ERV U2 Power On
-    mode: single
-    sequence:
-      - service: modbus.write_register
-        data:
-          hub: ERV
-          slave: 2
-          address: 1
-          value: [1]
-
-  erv_u2_power_off:
-    alias: ERV U2 Power Off
-    mode: single
-    sequence:
-      - service: modbus.write_register
-        data:
-          hub: ERV
-          slave: 2
-          address: 1
-          value: [0]
-
-  erv_u2_power_toggle:
-    alias: ERV U2 Power Toggle
-    mode: single
-    sequence:
-      - choose:
-          - conditions:
-              - condition: state
-                entity_id: switch.erv_u2_power
-                state: "on"
-            sequence:
-              - service: script.erv_u2_power_off
-        default:
-          - service: script.erv_u2_power_on
-
-  erv_u2_mode_heat:
-    alias: ERV U2 Mode Heat-Exchange
-    mode: single
-    sequence:
-      - service: modbus.write_register
-        data:
-          hub: ERV
-          slave: 2
-          address: 2
-          value: [0]
-
-  erv_u2_mode_normal:
-    alias: ERV U2 Mode Normal
-    mode: single
-    sequence:
-      - service: modbus.write_register
-        data:
-          hub: ERV
-          slave: 2
-          address: 2
-          value: [1]
-
-  erv_u2_air_low:
-    alias: ERV U2 Air Low
-    mode: single
-    sequence:
-      - service: modbus.write_register
-        data:
-          hub: ERV
-          slave: 2
-          address: 3
-          value: [1]
-
-  erv_u2_air_high:
-    alias: ERV U2 Air High
-    mode: single
-    sequence:
-      - service: modbus.write_register
-        data:
-          hub: ERV
-          slave: 2
-          address: 3
-          value: [3]
+turn_on_all_switches:
+  alias: Turn ON All Switches
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.3_5_switch_1_2
+      - switch.3_5_switch_2_2
+      - switch.3_5_switch_3_2
+      - switch.3_4_switch_1_3
+      - switch.3_4_switch_2_3
+      - switch.3_4_switch_3_3
+turn_off_all_switches:
+  alias: Turn OFF All Switches
+  sequence:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.3_5_switch_1_2
+      - switch.3_5_switch_2_2
+      - switch.3_5_switch_3_2
+      - switch.3_4_switch_1_3
+      - switch.3_4_switch_2_3
+      - switch.3_4_switch_3_3
+turn_on_group_1_switches:
+  alias: Turn ON Group 1 Switches
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.1_2_switch_1
+      - switch.1_2_switch_2
+      - switch.1_3_switch_1
+      - switch.1_3_switch_2
+      - switch.1_3_switch_3
+      - switch.1_4_switch_1
+      - switch.1_4_switch_2
+      - switch.1_4_switch_3
+turn_off_group_1_switches:
+  alias: Turn OFF Group 1 Switches
+  sequence:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.1_2_switch_1
+      - switch.1_2_switch_2
+      - switch.1_3_switch_1
+      - switch.1_3_switch_2
+      - switch.1_3_switch_3
+      - switch.1_4_switch_1
+      - switch.1_4_switch_2
+      - switch.1_4_switch_3
+erv_u1_power_on:
+  alias: 'ERV U1: Power On'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 1
+      value: [1]
+erv_u1_power_off:
+  alias: 'ERV U1: Power Off'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 1
+      value: [0]
+erv_u1_power_toggle:
+  alias: 'ERV U1: Power Toggle'
+  mode: single
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.erv_u1_power
+        state: 'on'
+      sequence:
+      - service: script.erv_u1_power_off
+    default:
+    - service: script.erv_u1_power_on
+erv_u1_mode_heat:
+  alias: 'ERV U1: Mode Heat-Exchange'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 2
+      value: [0]
+erv_u1_mode_normal:
+  alias: 'ERV U1: Mode Normal'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 2
+      value: [1]
+erv_u1_air_low:
+  alias: 'ERV U1: Air Low'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 3
+      value: [1]
+erv_u1_air_high:
+  alias: 'ERV U1: Air High'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 3
+      value: [3]
+erv_u1_reset_filter:
+  alias: 'ERV U1: Reset Filter'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 11
+      value: [0]
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 1
+      address: 13
+      value: [0]
+erv_u2_power_on:
+  alias: 'ERV U2: Power On'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 1
+      value: [1]
+erv_u2_power_off:
+  alias: 'ERV U2: Power Off'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 1
+      value: [0]
+erv_u2_power_toggle:
+  alias: 'ERV U2: Power Toggle'
+  mode: single
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.erv_u2_power
+        state: 'on'
+      sequence:
+      - service: script.erv_u2_power_off
+    default:
+    - service: script.erv_u2_power_on
+erv_u2_mode_heat:
+  alias: 'ERV U2: Mode Heat-Exchange'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 2
+      value: [0]
+erv_u2_mode_normal:
+  alias: 'ERV U2: Mode Normal'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 2
+      value: [1]
+erv_u2_air_low:
+  alias: 'ERV U2: Air Low'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 3
+      value: [1]
+erv_u2_air_high:
+  alias: 'ERV U2: Air High'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 3
+      value: [3]
+erv_u2_reset_filter:
+  alias: 'ERV U2: Reset Filter'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 11
+      value: [0]
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 2
+      address: 13
+      value: [0]
+erv_u3_power_on:
+  alias: 'ERV U3: Power On'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 1
+      value: [1]
+erv_u3_power_off:
+  alias: 'ERV U3: Power Off'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 1
+      value: [0]
+erv_u3_power_toggle:
+  alias: 'ERV U3: Power Toggle'
+  mode: single
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.erv_u3_power
+        state: 'on'
+      sequence:
+      - service: script.erv_u3_power_off
+    default:
+    - service: script.erv_u3_power_on
+erv_u3_mode_heat:
+  alias: 'ERV U3: Mode Heat-Exchange'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 2
+      value: [0]
+erv_u3_mode_normal:
+  alias: 'ERV U3: Mode Normal'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 2
+      value: [1]
+erv_u3_air_low:
+  alias: 'ERV U3: Air Low'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 3
+      value: [1]
+erv_u3_air_high:
+  alias: 'ERV U3: Air High'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 3
+      value: [3]
+erv_u3_reset_filter:
+  alias: 'ERV U3: Reset Filter'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 11
+      value: [0]
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 3
+      address: 13
+      value: [0]
+erv_u4_power_on:
+  alias: 'ERV U4: Power On'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 1
+      value: [1]
+erv_u4_power_off:
+  alias: 'ERV U4: Power Off'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 1
+      value: [0]
+erv_u4_power_toggle:
+  alias: 'ERV U4: Power Toggle'
+  mode: single
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.erv_u4_power
+        state: 'on'
+      sequence:
+      - service: script.erv_u4_power_off
+    default:
+    - service: script.erv_u4_power_on
+erv_u4_mode_heat:
+  alias: 'ERV U4: Mode Heat-Exchange'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 2
+      value: [0]
+erv_u4_mode_normal:
+  alias: 'ERV U4: Mode Normal'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 2
+      value: [1]
+erv_u4_air_low:
+  alias: 'ERV U4: Air Low'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 3
+      value: [1]
+erv_u4_air_high:
+  alias: 'ERV U4: Air High'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 3
+      value: [3]
+erv_u4_reset_filter:
+  alias: 'ERV U4: Reset Filter'
+  mode: single
+  sequence:
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 11
+      value: [0]
+  - service: modbus.write_register
+    data:
+      hub: ERV
+      slave: 4
+      address: 13
+      value: [0]
