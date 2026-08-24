@@ -1,0 +1,40 @@
+# ERV U2 Power On — Home Assistant
+#
+# switch.erv_u2_power is currently off. Paste this into scripts.yaml
+# (do not wrap it in another `script:` key if you already use
+# `script: !include scripts.yaml`).
+#
+# After reload: Developer Tools → Actions → script.erv_u2_power_on
+# or tap the script in the UI.
+#
+# switch.turn_on is the entity the dashboard uses.
+# modbus.write_register FC16 (value as a list) is what this ERV board
+# actually accepts — FC06 single-register writes are ignored.
+
+erv_u2_power_on:
+  alias: "ERV U2: Power On"
+  mode: single
+  sequence:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.erv_u2_power
+    - service: modbus.write_register
+      data:
+        hub: ERV
+        slave: 2
+        address: 1
+        value: [1]
+
+erv_u2_power_off:
+  alias: "ERV U2: Power Off"
+  mode: single
+  sequence:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.erv_u2_power
+    - service: modbus.write_register
+      data:
+        hub: ERV
+        slave: 2
+        address: 1
+        value: [0]
