@@ -1,0 +1,85 @@
+# Paste into scripts.yaml (or a package). Restart Home Assistant after paste.
+# hub: erv MUST match the Modbus hub `name:`. Rename both if yours differs.
+# value: [n] is a list so Home Assistant sends FC16 (write multiple registers).
+# A bare integer uses FC06, which many ERVs ignore.
+
+script:
+  erv_u2_power_on:
+    alias: ERV U2 Power On
+    mode: single
+    sequence:
+      - service: modbus.write_register
+        data:
+          hub: erv
+          slave: 2
+          address: 1
+          value: [1]
+
+  erv_u2_power_off:
+    alias: ERV U2 Power Off
+    mode: single
+    sequence:
+      - service: modbus.write_register
+        data:
+          hub: erv
+          slave: 2
+          address: 1
+          value: [0]
+
+  erv_u2_power_toggle:
+    alias: ERV U2 Power Toggle
+    mode: single
+    sequence:
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: switch.erv_u2_power
+                state: "on"
+            sequence:
+              - service: script.erv_u2_power_off
+        default:
+          - service: script.erv_u2_power_on
+
+  erv_u2_mode_heat:
+    alias: ERV U2 Mode Heat
+    mode: single
+    sequence:
+      - service: modbus.write_register
+        data:
+          hub: erv
+          slave: 2
+          address: 2
+          value: [0]
+
+  erv_u2_mode_normal:
+    alias: ERV U2 Mode Normal
+    mode: single
+    sequence:
+      - service: modbus.write_register
+        data:
+          hub: erv
+          slave: 2
+          address: 2
+          value: [1]
+
+  erv_u2_air_low:
+    alias: ERV U2 Air Low
+    mode: single
+    sequence:
+      - service: modbus.write_register
+        data:
+          hub: erv
+          slave: 2
+          address: 3
+          value: [1]
+
+  erv_u2_air_high:
+    alias: ERV U2 Air High
+    mode: single
+    sequence:
+      - service: modbus.write_register
+        data:
+          hub: erv
+          slave: 2
+          address: 3
+          value: [3]
