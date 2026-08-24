@@ -1,6 +1,5 @@
-# Lovelace card for ERV 2. Paste into a dashboard (raw YAML).
-# Power uses call-service with an explicit target, same as Mode/Air.
-# mushroom-template-card `action: toggle` often does nothing.
+# ไฟล์ที่ 3/3 — วางในการ์ด Lovelace (raw YAML)
+# Power ใช้ call-service แบบเดียวกับ Mode/Air ไม่ใช้ toggle
 
 type: vertical-stack
 cards:
@@ -36,16 +35,21 @@ cards:
           action: more-info
         fill_container: true
       - type: custom:mushroom-template-card
-        entity: sensor.erv_u2_air_label
+        entity: sensor.erv_u2_air
         primary: Fan Speed
-        secondary: "{{ states('sensor.erv_u2_air_label') }}"
+        secondary: |
+          {% set v = states('sensor.erv_u2_air') %}
+          {% if v == '1' %}Low
+          {% elif v == '3' %}High
+          {% else %}{{ v }}
+          {% endif %}
         icon: mdi:fan
         layout: vertical
         icon_color: |
-          {% set v = states('sensor.erv_u2_air_label') %}
-          {% if v == 'High' %}
+          {% set v = states('sensor.erv_u2_air') %}
+          {% if v == '3' %}
             orange
-          {% elif v == 'Low' %}
+          {% elif v == '1' %}
             cyan
           {% else %}
             grey

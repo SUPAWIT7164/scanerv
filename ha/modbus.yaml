@@ -1,17 +1,8 @@
-# Merge into the SAME Modbus hub that already talks to HF5111SC
-# (172.17.24.160:8899). Do NOT add a second TCP hub — the gateway is
-# single-client. Hub `name:` MUST match scripts (default: erv).
+# ไฟล์ที่ 1/3 — รวมเข้า hub Modbus เดิม (อย่าเปิด TCP ซ้ำ)
+# เปลี่ยน `hub: erv` ในสคริปต์ให้ตรงกับ name ของ hub นี้
 #
-# Why Power did nothing ("กด power แล้วไม่ทำงาน"):
-# - U2 YAML had Mode (addr 2) and Air (addr 3) as sensors only.
-# - The dashboard toggles switch.erv_u2_power, which did not exist.
-# - A Power *sensor* would be sensor.erv_u2_power and toggle would fail silently.
-# - write_type: holdings = FC16. Default holding = FC06; many ERVs ignore FC06.
-# - scan_interval: 5 so the UI updates after a write (30s looks like "broken").
-#
-# Paste the switch under `switches:` (create that key if missing). Keep your
-# existing Mode/Air/hours sensors; do not add a Power sensor (the switch
-# already polls holding register 1). Restart Home Assistant after paste.
+# จุดที่ขาด: สวิตช์ Power ที่ holding address 1 (slave 2)
+# write_type: holdings = FC16 เพราะบอร์ด ERV หลายรุ่นไม่รับ FC06
 
     switches:
       - name: "ERV U2 Power"
@@ -30,7 +21,6 @@
           state_off: 0
 
     sensors:
-      # Existing U2 sensors (merge if you already have them). Power is the switch.
       - name: "ERV U2 Mode"
         unique_id: erv_u2_mode
         slave: 2

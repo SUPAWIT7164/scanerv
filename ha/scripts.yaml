@@ -1,8 +1,6 @@
-# Paste under `script:` (or as a package). Restart Home Assistant after paste.
-#
-# `hub: erv` MUST match the Modbus hub `name:`.
-# `value: [n]` is a list so Home Assistant sends FC16 (write multiple).
-# A bare integer uses FC06, which many ERV boards ignore.
+# ไฟล์ที่ 2/3 — วางใน scripts.yaml แล้ว Restart Home Assistant
+# `hub: erv` ต้องตรงกับชื่อ hub ในไฟล์ Modbus
+# `value: [n]` เป็นลิสต์ เพื่อให้ HA ส่ง FC16 (บอร์ด ERV มักไม่รับ FC06)
 
 script:
   erv_u2_power_on:
