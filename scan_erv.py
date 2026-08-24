@@ -11,7 +11,7 @@ import socket
 import struct
 import time
 
-HOST = "172.17.24.160"
+HOST = "172.17.24.163"
 PORT = 8899
 SLAVE_START = 1
 SLAVE_END = 16
