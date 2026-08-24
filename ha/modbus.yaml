@@ -1175,10 +1175,13 @@
   type: tcp
   host: "172.17.24.160"
   port: 8899
-  delay: 5
-  timeout: 10
-  retries: 5
-  message_wait_milliseconds: 300
+  # ของเดิม delay: 5 timeout: 10 retries: 5 ทำให้กดปุ่มแล้วค้างนาน
+  # delay เป็นวินาทีหลังต่อ TCP — ถ้าหลุดบ่อยจะรอ 5 วินาทีทุกครั้ง
+  # timeout 10 × retries 5 = รอได้กว่า 1 นาทีต่อ 1 คำสั่งถ้า slave ไม่ตอบ
+  delay: 0
+  timeout: 2
+  retries: 1
+  message_wait_milliseconds: 200
 
   #################################
   # SWITCHES
