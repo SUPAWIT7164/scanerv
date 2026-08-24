@@ -1175,13 +1175,12 @@
   type: tcp
   host: "172.17.24.160"
   port: 8899
-  # ของเดิม delay: 5 timeout: 10 retries: 5 ทำให้กดปุ่มแล้วค้างนาน
-  # delay เป็นวินาทีหลังต่อ TCP — ถ้าหลุดบ่อยจะรอ 5 วินาทีทุกครั้ง
-  # timeout 10 × retries 5 = รอได้กว่า 1 นาทีต่อ 1 คำสั่งถ้า slave ไม่ตอบ
+  # ของเดิม delay: 5  timeout: 10  retries: 5
+  # ถ้า U1/U3/U4 ไม่ตอบ: timeout×retries ต่อเซ็นเซอร์ → คำสั่ง Power ต่อคิวช้าหลายนาที
   delay: 0
-  timeout: 2
-  retries: 1
-  message_wait_milliseconds: 200
+  timeout: 1
+  retries: 0
+  message_wait_milliseconds: 150
 
   #################################
   # SWITCHES
@@ -1268,14 +1267,14 @@
       address: 11
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
 
     - name: "ERV U1 Replace Hours"
       slave: 1
       address: 13
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
     #################################
     # ===== U2 =====
     #################################
@@ -1298,14 +1297,14 @@
       address: 11
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
 
     - name: "ERV U2 Replace Hours"
       slave: 2
       address: 13
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
     #################################
     # ===== U3 =====
     #################################
@@ -1328,14 +1327,14 @@
       address: 11
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
 
     - name: "ERV U3 Replace Hours"
       slave: 3
       address: 13
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
     #################################
     # ===== U4 =====
     #################################
@@ -1358,11 +1357,11 @@
       address: 11
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
 
     - name: "ERV U4 Replace Hours"
       slave: 4
       address: 13
       input_type: holding
       data_type: uint16
-      scan_interval: 60
+      scan_interval: 180
